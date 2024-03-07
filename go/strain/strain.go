@@ -2,35 +2,27 @@ package strain
 
 // Implement the "Keep" and "Discard" function in this file.
 func Keep[T any](list []T, filterFunc func(T) bool) []T {
-	var newList []T;
-
-	if(list == nil){
-		panic("Nil list")
-	}
+	var items []T;
 
 	for i := 0; i < len(list); i++ {
-		if(filterFunc(list[i])){
-			newList = append(newList, list[i])
+		if filterFunc(list[i]) {
+			items = append(items, list[i])
 		}
 	}
 	
-	return newList
+	return items
 } 
 
 func Discard[T any](list []T, filterFunc func(T) bool) []T {
-	var newList []T;
-
-	if(list == nil){
-		panic("Nil list")
-	}
+	var items []T;
 
 	for i := 0; i < len(list); i++ {
-		if(!filterFunc(list[i])){
-			newList = append(newList, list[i])
+		if !filterFunc(list[i]) {
+			items = append(items, list[i])
 		}
 	}
 	
-	return newList
+	return items
 }
 
 // You will need typed parameters (aka "Generics") to solve this exercise.
