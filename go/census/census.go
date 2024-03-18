@@ -27,22 +27,13 @@ func (r *Resident) HasRequiredInfo() bool {
 		return false
 	}
 
-	for key, v := range r.Address {
-		_, exists := r.Address[key]
+	value, exists := r.Address["street"]
 
-		if !exists {
-			return false
-		}
-		
-		if v == "" {
-			return false
-		}
-
-		if key != "street" {
-			return false
-		}
+	if value == "" {
+		return false
 	}
-	return true
+	
+	return exists
 }
 
 // Delete deletes a resident's information.
