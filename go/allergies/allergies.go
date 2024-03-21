@@ -1,7 +1,5 @@
 package allergies
 
-import "math"
-
 var allergiesMap = map[uint]string {
 	1: "eggs",
 	2: "peanuts",
@@ -13,60 +11,13 @@ var allergiesMap = map[uint]string {
 	128: "cats",
 }
 
-func GetClosestAllergyValue(allergies uint) uint {
-	var closestAllergyValue uint
-	i := 0
-	for {
-		closestAllergyValue = uint(math.Pow(2, float64(i)))
-		if(closestAllergyValue > uint(allergies)){
-			closestAllergyValue = uint(math.Pow(2, float64(i - 1)))
-			break
-		}
-		i++
-	}
-	return closestAllergyValue
-}
-
-
 func Allergies(allergies uint) []string {
-	if allergies == 0 {
-		return []string{} 
-	}
-	
-	v, exists := allergiesMap[allergies]
-	if exists {
-		return []string{v}
-	}
-
 	var res []string
-
-	closestAllergyValue := GetClosestAllergyValue(allergies)
-
-	sub := allergies - closestAllergyValue
-
-	if(sub == 0){
-		closestAllergy := allergiesMap[closestAllergyValue]
-		return []string{closestAllergy}
+	for allergyValue, allergyName := range allergiesMap {
+		if allergies&allergyValue != 0 {
+			res = append(res, allergyName)
+		}	
 	}
-
-	closestAllergy2, exists4 := allergiesMap[closestAllergyValue]
-		
-	if(exists4){
-		res = append(res, closestAllergy2)
-	}
-	
-	for {
-		newClosestAllergyValue := GetClosestAllergyValue(sub)
-		newClosestAllergy, exists3 := allergiesMap[newClosestAllergyValue]
-		if(exists3){
-			res = append(res, newClosestAllergy)
-		}
-		sub = sub - newClosestAllergyValue
-		if sub <= 0 {
-			break
-		}
-	}
-
 	return res
 }
 
@@ -78,5 +29,6 @@ func AllergicTo(allergies uint, allergen string) bool {
 			return true
 		}
 	}
+	
 	return false
 }
